@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+    html{height:100%}
+        body{height:100%;margin:0px;padding:0px}
+        #containers{height:100%}
+    </style>
+    <script src="https://api.map.baidu.com/api?v=2.0&&type=webgl&ak=fHecfmYdTGstiIIM3CAFDZ1iYUwgcqbc"></script>
+    <title>My hometown</title>
+</head>
+<body>
+    <div id="containers"></div>
+        <script type="text/javascript">
+
+    var map = new BMapGL.Map("containers");    // 创建Map实例
+    var point = new BMapGL.Point(107.029427, 33.0738);
+    var marker = new BMapGL.Marker(point);  // 创建标注
+    map.centerAndZoom(new BMapGL.Point(107.029427, 33.0738), 10);  // 初始化地图,设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+    map.addOverlay(marker);              // 将标注添加到地图中
+
+//     var content =
+// "<center><h4 style='margin:0 0 5px 0;padding:0.2em 0'>汉中</h4></center>" +
+// "<img style='float:right;margin:4px' id='imgDemo' src='laotzu.jpg' width='200' height='104' title='老子故里'/>"  +
+// "<center><a style='color:#1C2B35;text-decoration:none;' href='https://baike.baidu.com/item/%E5%91%A8%E5%8F%A3/139270'>更多信息见百度百科</a></center>"
+// "</div>";
+
+// -------
+// 创建图文信息窗口
+var sContent = `<h4 style='margin:0 0 5px 0;'>汉中</h4>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='https://img.zcool.cn/community/0101485b73a631a80120d8c025fd6b.jpg@1280w_1l_2o_100sh.jpg' width='139' height='104'/>
+    <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
+    汉中，简称“汉”，古称南郑、兴元、梁州、天汉，陕西省辖地级市。汉中位于陕西南部，北依秦岭，南屏巴山，中部为汉中平原。汉中市因汉水而得名，自古就有“天汉”之美称。被评为中国最美十大城镇之一，被誉为“汉人老家”。汉中是长江第一大支流汉江的源头，陕南地区重要的中心城市，连接关中-天水经济区、成渝经济区和江汉平原的重要交通枢纽，也是两汉三国文化的主要发祥地，素有“汉家发祥地，中华聚宝盆”的美誉。
+    </p></div>`;
+var infoWindow = new BMapGL.InfoWindow(sContent);
+// marker添加点击事件
+marker.addEventListener('click', function () {
+    this.openInfoWindow(infoWindow);
+    // 图片加载完毕重绘infoWindow
+    document.getElementById('imgDemo').onload = function () {
+        infoWindow.redraw(); // 防止在网速较慢时生成的信息框高度比图片总高度小，导致图片部分被隐藏
+    };
+});
+
+var opts = {
+        width: 200,     // 信息窗口宽度
+        height:180,     // 信息窗口高度
+        title: ""  // 信息窗口标题
+    }
+var infoWindow = new BMapGL.InfoWindow(content,opts);     // marker添加点击事件
+map.openInfoWindow(infoWindow, map.getCenter());      // 打开信息窗口
+
+</script>
+</body>
+</html>
